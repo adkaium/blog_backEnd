@@ -18,8 +18,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/v1', userRouter);
-app.use('/api/blog',bolgRoute);
-app.use('/api/auth',AuthRoutes)
+app.use('/api/blog', bolgRoute);
+app.use('/api/auth', AuthRoutes);
 
 app.use(globalErrorHandler);
 // app.use(notFound);

@@ -1,13 +1,11 @@
 // import { Tblog } from "./blog.interface"
-import { Tblog } from "./blog.interface";
-import { Blog } from "./blog.model"
-
+import { Tblog } from './blog.interface';
+import { Blog } from './blog.model';
 
 const createBlogIntoDB = async (blogData: Partial<Tblog>): Promise<Tblog> => {
   const blog = new Blog(blogData);
   return await blog.save();
 };
-
 
 // // update a blog
 export const updateBlogIntoDB = async (
@@ -20,7 +18,7 @@ export const updateBlogIntoDB = async (
   });
 };
 
- const deleteBlog = async (
+const deleteBlog = async (
   blogId: string,
   userId: string,
 ): Promise<Tblog | null> => {

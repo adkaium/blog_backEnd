@@ -7,23 +7,21 @@ import { User } from '../modules/user/user.model';
 import config from '../config';
 import AppError from '../errors/AppError';
 
-
 export const auth =
   () =>
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-     const token = req.headers.authorization; 
-    
+      const token = req.headers.authorization;
+
       if (
         req.headers.authorization &&
         req.headers.authorization.startsWith('Bearer')
       ) {
-       const token = req.headers.authorization.split(' ')[1];
+        const token = req.headers.authorization.split(' ')[1];
       }
-      console.log(token);
 
       if (!token) {
-         throw new AppError(404, 'not Authorized');
+        throw new AppError(404, 'not Authorized');
       }
 
       const decoded: any = jwt.verify(
@@ -33,7 +31,7 @@ export const auth =
       const user = await User.findById(decoded.id);
 
       if (!user || user.isBlocked) {
-        throw new AppError(404,"not Authorized")
+        throw new AppError(404, 'not Authorized');
       }
 
       req.user = user; // Attach user to request object

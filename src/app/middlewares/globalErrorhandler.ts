@@ -11,7 +11,6 @@ import AppError from '../errors/AppError';
 import { TErrorSources } from '../interface/error';
 import { ErrorRequestHandler } from 'express';
 
-
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   //setting default values
   let statusCode = 500;
@@ -73,5 +72,3 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 };
 
 export default globalErrorHandler;
-
-

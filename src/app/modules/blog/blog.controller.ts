@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from "express";
-import { blogService } from "./blog.services";
-import AppError from "../../errors/AppError";
-
-
+import { Request, Response } from 'express';
+import { blogService } from './blog.services';
+import AppError from '../../errors/AppError';
 
 const createBlog = async (req: Request, res: Response) => {
   try {
@@ -22,7 +20,7 @@ const createBlog = async (req: Request, res: Response) => {
       statusCode: 201,
       data: blog,
     });
-  } catch (error :any) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Internal server error',
@@ -32,17 +30,20 @@ const createBlog = async (req: Request, res: Response) => {
   }
 };
 
-
- const updateBlog = async (req: Request, res: Response) => {
+const updateBlog = async (req: Request, res: Response) => {
   try {
     const blogId = req.params.id;
     const userId = req.user?._id;
     const updates = req.body;
 
-    const updatedBlog = await blogService.updateBlogIntoDB(blogId, userId, updates);
+    const updatedBlog = await blogService.updateBlogIntoDB(
+      blogId,
+      userId,
+      updates,
+    );
 
     if (!updatedBlog) {
-       throw new AppError(404, 'Blog not found or unauthorized');
+      throw new AppError(404, 'Blog not found or unauthorized');
     }
 
     res.status(200).json({
@@ -51,7 +52,7 @@ const createBlog = async (req: Request, res: Response) => {
       statusCode: 200,
       data: updatedBlog,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Internal server error',
@@ -61,7 +62,7 @@ const createBlog = async (req: Request, res: Response) => {
   }
 };
 
- const deleteBlog = async (req: Request, res: Response) => {
+const deleteBlog = async (req: Request, res: Response) => {
   try {
     const blogId = req.params.id;
     const userId = req.user?._id;
@@ -69,7 +70,7 @@ const createBlog = async (req: Request, res: Response) => {
     const deletedBlog = await blogService.deleteBlog(blogId, userId);
 
     if (!deletedBlog) {
-      throw new AppError(404,'not found blog')
+      throw new AppError(404, 'not found blog');
     }
 
     res.status(200).json({
@@ -77,7 +78,7 @@ const createBlog = async (req: Request, res: Response) => {
       message: 'Blog deleted successfully',
       statusCode: 200,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Internal server error',
@@ -86,7 +87,6 @@ const createBlog = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 export const blogController = {
   createBlog,
