@@ -10,17 +10,25 @@ const createBlogIntoDB = async (blogData: Partial<Tblog>): Promise<Tblog> => {
 
 
 // // update a blog
-// const updateBlogIntoDB = async(_id: string, doc:{})=>{
+export const updateBlogIntoDB = async (
+  blogId: string,
+  userId: string,
+  updates: Partial<Tblog>,
+): Promise<Tblog | null> => {
+  return await Blog.findOneAndUpdate({ _id: blogId, author: userId }, updates, {
+    new: true,
+  });
+};
 
-//  const { }=doc;
-//  const result =await Blog.findByIdAndUpdate(_id, doc, {
-//     new:true,
-//     runValidators:true
-//  })
-// }
+ const deleteBlog = async (
+  blogId: string,
+  userId: string,
+): Promise<Tblog | null> => {
+  return await Blog.findOneAndDelete({ _id: blogId, author: userId });
+};
 
-
-export const blogService={
-    createBlogIntoDB,
-   //  updateBlogIntoDB
-}
+export const blogService = {
+  createBlogIntoDB,
+  updateBlogIntoDB,
+  deleteBlog,
+};
