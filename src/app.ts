@@ -4,6 +4,7 @@ import { userRouter } from './app/modules/user/user.route';
 import globalErrorHandler from './app/middlewares/globalErrorhandler';
 import { bolgRoute } from './app/modules/blog/blog.route';
 import { AuthRoutes } from './app/modules/Auth/auth.route';
+import { adminRoute } from './app/modules/admin/admin.route';
 // import notFound from './app/middlewares/notFound';
 
 const app: Application = express();
@@ -20,6 +21,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/v1', userRouter);
 app.use('/api/blog', bolgRoute);
 app.use('/api/auth', AuthRoutes);
+app.use('/api/admin',adminRoute)
 
 app.use(globalErrorHandler);
 // app.use(notFound);

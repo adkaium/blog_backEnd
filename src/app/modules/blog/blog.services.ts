@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import { Tblog } from "./blog.interface"
 import { Tblog } from './blog.interface';
 import { Blog } from './blog.model';
@@ -24,9 +25,35 @@ const deleteBlog = async (
 ): Promise<Tblog | null> => {
   return await Blog.findOneAndDelete({ _id: blogId, author: userId });
 };
+//  get all blog by serchig
+const getAllBlogsIntoDB = async (
+  search: string | undefined,
+  sortBy: string = 'createdAt',
+  sortOrder: string = 'desc',
+  filter: string | undefined,
+): Promise<Tblog[]> => {
+  const query: any = {};
+  if (search) {
+    query.$or = [
+      { title: { $regex: search, $options: 'i' } },
+      { content: { $regex: search, $options: 'i' } },
+    ];
+  }
+  if (filter) {
+    query.author = filter;
+  }
+
+  const sortOptions: any = {};
+  sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;
+
+  return await Blog.find(query)
+    .sort(sortOptions)
+    .populate('author', 'name email');
+};
 
 export const blogService = {
   createBlogIntoDB,
+  getAllBlogsIntoDB,
   updateBlogIntoDB,
   deleteBlog,
 };

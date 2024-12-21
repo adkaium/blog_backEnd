@@ -10,37 +10,23 @@ import { TLoginUser } from './auth.interface';
 import { createToken } from './auth.utils';
 import config from '../../config';
 
+
 const loginUser = async (payload: TLoginUser) => {
   const { email } = payload;
   // checking if the user is exist
   const user = await User.findOne({ email });
 
+ 
+
   if (!user) {
     throw new AppError(404, 'This user is not found !');
-  }
-  // checking if the user is already deleted
-
-  //   const isDeleted = user?.isDeleted;
-
-  //   if (isDeleted) {
-  //     throw new AppError(httpStatus.FORBIDDEN, 'This user is deleted !');
-  //   }
-
-  // checking if the user is blocked
-
-  //   const userStatus = user?.status;
-
-  //   if (userStatus === 'blocked') {
-  //     throw new AppError(httpStatus.FORBIDDEN, 'This user is blocked ! !');
-  //   }
-
-  //create token and sent to the  client
-
-  const jwtPayload = {
+    }
+    
+  
+ const jwtPayload = {
     id: user._id,
     role: user.role,
   };
-
   const accessToken = createToken(
     jwtPayload,
     config.jwt_access_token as string,
@@ -64,7 +50,7 @@ const refreshToken = async (token: string) => {
     token,
     config.jwt_refresh_token as string,
   ) as JwtPayload;
-  console.log(decoded);
+
   const { id } = decoded;
 
   // checking if the user is exist

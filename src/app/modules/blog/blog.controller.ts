@@ -88,8 +88,36 @@ const deleteBlog = async (req: Request, res: Response) => {
   }
 };
 
+const getAllBlogs = async (req: Request, res: Response) => {
+  try {
+    const { search, sortBy, sortOrder, filter } = req.query;
+
+    const blogs = await blogService.getAllBlogsIntoDB(
+      search as string,
+      sortBy as string,
+      sortOrder as string,
+      filter as string,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Blogs fetched successfully',
+      statusCode: 200,
+      data: blogs,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      statusCode: 500,
+      error: error.message,
+    });
+  }
+};
+
 export const blogController = {
   createBlog,
+  getAllBlogs,
   updateBlog,
   deleteBlog,
 };

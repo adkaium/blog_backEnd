@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendRespons';
+
 
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -21,7 +24,20 @@ const createUser = async (req: Request, res: Response) => {
     });
   }
 };
+const createAdmin = catchAsync(async (req, res) => {
+  const { password,  adminData } = req.body;
+
+  const result = await UserServices.createAdminIntoDB(password, adminData);
+
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: 'Admin is created succesfully',
+    data: { _id: result?._id, name: result?.name, email: result?.email },
+  });
+});
 
 export const userController = {
   createUser,
+  createAdmin,
 };
